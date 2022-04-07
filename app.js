@@ -107,7 +107,7 @@ function main(){
 
     gl.vertexAttribPointer(
         colorAttribLocation,
-        2,
+        3,
         gl.FLOAT,
         gl.FALSE,
         5 * Float32Array.BYTES_PER_ELEMENT,

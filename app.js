@@ -1,4 +1,4 @@
-var vertexShaderText = `
+const vsSource = `
 precision   mediump float;
 
 attribute   vec2    vertPosition;
@@ -11,7 +11,7 @@ void main(){
 }
 `
 
-var fragmentShaderText = `
+const fsSource = `
 precision   mediump float;
 
 varying     vec3    fragColor;
@@ -22,7 +22,7 @@ void main(){
 `
 
 function main(){
-    let canvas = document.getElementById('my_canvas')
+    let canvas = document.getElementById('gl-canvas')
     let gl = canvas.getContext('webgl2')
 
     if (!gl){
@@ -42,8 +42,8 @@ function main(){
     let vertexShader   = gl.createShader(gl.VERTEX_SHADER)
     let fragmentShader = gl.createShader(gl.FRAGMENT_SHADER) 
 
-    gl.shaderSource(vertexShader, vertexShaderText)
-    gl.shaderSource(fragmentShader, fragmentShaderText)
+    gl.shaderSource(vertexShader, vsSource)
+    gl.shaderSource(fragmentShader, fsSource)
 
     //
     // compile shader
@@ -59,8 +59,7 @@ function main(){
         console.error('ERROR: compiling fragment shader!', gl.getShaderInfoLog(fragmentShader))
         return
     }
-
-
+    
     // 
     // program
     //
@@ -84,18 +83,18 @@ function main(){
     //
     // create buffer
     //
-    var triangleVertices = [
+    let triangleVertices = [
          0.0,    0.5,   1.0,    0.0,    0.0,
         -0.5,   -0.5,   0.0,    1.0,    0.0, 
          0.5,   -0.5,   0.0,    0.0,    1.0 
     ]
 
-    var triangleVertexBufferObject = gl.createBuffer()
+    let triangleVertexBufferObject = gl.createBuffer()
     gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexBufferObject)
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(triangleVertices), gl.STATIC_DRAW)
 
-    var positionAttribLocation  = gl.getAttribLocation(program, 'vertPosition')
-    var colorAttribLocation     = gl.getAttribLocation(program, 'vertColor')
+    let positionAttribLocation  = gl.getAttribLocation(program, 'vertPosition')
+    let colorAttribLocation     = gl.getAttribLocation(program, 'vertColor')
     gl.vertexAttribPointer(
         positionAttribLocation,
         2,

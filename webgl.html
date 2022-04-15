@@ -1,10 +1,21 @@
 <!DOCTYPE html>
 <html>
     <header>
-        <title>test webgl2</title>
+        <title>learn WebGL2</title>
+        <link rel="stylesheet" href="./webgl.css" type="text/css">
     </header>
     <body>
-        <canvas id="gl-canvas" width="800" height="600" ></canvas>
-        <script src="app.js"></script>
+        <div id="viewContainer">
+            <canvas id="glCanvas" width="400" height="300" ></canvas>
+        </div>
+
+        <div id="inputContainer">
+            <p>Matrix</p>
+            <p><textarea id="matrixTextarea" ></textarea></p>
+            <p><button id="changeButton" onclick="dataMatrix()">Change</button></p>
+        </div>
+
+        <script src="triangle_rgb.js"></script>
+        
     </body>
 </html>

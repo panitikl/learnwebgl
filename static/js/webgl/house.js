@@ -95,35 +95,37 @@ function initShaderProgram(gl, vertexShader, fragmentShader) {
 // ---------------
 function initBuffer(gl) {
     let divider = 0.5
+    let vertexOffset = 0.25
+
     let vertices = [
-    //         X            Y         R      G      B
-         0.5*divider,  0.5*divider, 0.303, 0.297, 0.297,    // front
-        -0.5*divider,  0.5*divider, 0.303, 0.297, 0.297,    // front
-         0.5*divider, -0.5*divider, 0.303, 0.297, 0.297,    // front
+    //         X                             Y         R      G      B
+        (0.5*divider) -vertexOffset,  0.5*divider, 0.303, 0.297, 0.297,      // front
+        (-0.5*divider)-vertexOffset,  0.5*divider, 0.303, 0.297, 0.297,     // front
+        (0.5*divider) -vertexOffset, -0.5*divider, 0.303, 0.297, 0.297,      // front
 
-        -0.5*divider,  0.5*divider, 0.303, 0.297, 0.297,    // front
-        -0.5*divider, -0.5*divider, 0.303, 0.297, 0.297,    // front
-         0.5*divider, -0.5*divider, 0.303, 0.297, 0.297,    // front
+        (-0.5*divider)-vertexOffset,  0.5*divider, 0.303, 0.297, 0.297,     // front
+        (-0.5*divider)-vertexOffset, -0.5*divider, 0.303, 0.297, 0.297,     // front
+        (0.5*divider) -vertexOffset, -0.5*divider, 0.303, 0.297, 0.297,      // front
 
-         0.0*divider,  1.0*divider, 0.165, 0.0, 0.0,        // front roof
-        -0.5*divider,  0.5*divider, 0.165, 0.0, 0.0,        // front roof
-         0.5*divider,  0.5*divider, 0.165, 0.0, 0.0,        // front roof
+        (0.0*divider) -vertexOffset,  1.0*divider, 0.165, 0.0, 0.0,          // front roof
+        (-0.5*divider)-vertexOffset,  0.5*divider, 0.165, 0.0, 0.0,         // front roof
+        (0.5*divider) -vertexOffset,  0.5*divider, 0.165, 0.0, 0.0,          // front roof
 
-         0.5*divider,  0.5*divider, 0.5, 0.5, 0.5,          // side
-         0.5*divider, -0.5*divider, 0.5, 0.5, 0.5,          // side
-         1.5*divider, -0.5*divider, 0.5, 0.5, 0.5,          // side
+        (0.5*divider)-vertexOffset,  0.5*divider, 0.5, 0.5, 0.5,          // side
+        (0.5*divider)-vertexOffset, -0.5*divider, 0.5, 0.5, 0.5,          // side
+        (1.5*divider)-vertexOffset, -0.5*divider, 0.5, 0.5, 0.5,          // side
 
-         1.5*divider,  0.5*divider, 0.5, 0.5, 0.5,          // side
-         0.5*divider,  0.5*divider, 0.5, 0.5, 0.5,          // side
-         1.5*divider, -0.5*divider, 0.5, 0.5, 0.5,          // side
+        (1.5*divider)-vertexOffset,  0.5*divider, 0.5, 0.5, 0.5,          // side
+        (0.5*divider)-vertexOffset,  0.5*divider, 0.5, 0.5, 0.5,          // side
+        (1.5*divider)-vertexOffset, -0.5*divider, 0.5, 0.5, 0.5,          // side
 
-         1.0*divider,  1.0*divider, 0.378, 0.0, 0.0,        // back roof
-         0.5*divider,  0.5*divider, 0.378, 0.0, 0.0,        // back roof
-         1.5*divider,  0.5*divider, 0.378, 0.0, 0.0,        // back roof
+        (1.0*divider)-vertexOffset,  1.0*divider, 0.378, 0.0, 0.0,        // back roof
+        (0.5*divider)-vertexOffset,  0.5*divider, 0.378, 0.0, 0.0,        // back roof
+        (1.5*divider)-vertexOffset,  0.5*divider, 0.378, 0.0, 0.0,        // back roof
 
-         1.0*divider,  1.0*divider, 0.378, 0.0, 0.0,        // side roof
-         0.0*divider,  1.0*divider, 0.378, 0.0, 0.0,        // side roof
-         0.5*divider,  0.5*divider, 0.378, 0.0, 0.0         // side roof
+        (1.0*divider)-vertexOffset,  1.0*divider, 0.378, 0.0, 0.0,        // side roof
+        (0.0*divider)-vertexOffset,  1.0*divider, 0.378, 0.0, 0.0,        // side roof
+        (0.5*divider)-vertexOffset,  0.5*divider, 0.378, 0.0, 0.0         // side roof
 
     ]
 

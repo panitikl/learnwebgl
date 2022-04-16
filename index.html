@@ -5,18 +5,24 @@
         <link rel="stylesheet" href="./static/css/webgl.css" type="text/css">
     </header>
     <body>
-        <div id="viewContainer">
-            <canvas id="glCanvas" width="400" height="300" ></canvas>
+        <div id="canvasContainer-house">
+            <p>Triangle with 3 points</p>
+            <canvas id="glCanvas-triangle" width="400" height="300" ></canvas>
+
+            <p>Square with 4 points</p>
+            <canvas id="glCanvas-square" width="400" height="300" ></canvas>
+
+            <p>Square with 6 points (2 triangles)</p>
+            <canvas id="glCanvas-squaretri" width="400" height="300" ></canvas>
+
+            <p>House with 21 points (7 triangles)</p>
+            <canvas id="glCanvas-house" width="400" height="300" ></canvas>
         </div>
 
-        <div id="inputTableContainer">
-            <p>Square triangles</p>
-            <!-- <table id="componentTable"></table>
-            <p><button  id="changeButton">Change!</button></p> -->
-        </div>
-        
+        <script src="static/js/webgl/triangle.js"></script>
         <script src="static/js/webgl/sqaure.js"></script>
-        <!-- <script src="static/js/webgl/squaretri.js"></script> -->
+        <script src="static/js/webgl/squaretri.js"></script>
+        <script src="static/js/webgl/house.js"></script>
     </body>
     
 </html>

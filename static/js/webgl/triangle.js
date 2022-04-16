@@ -1,28 +1,31 @@
 // -------------
 // MAIN
 // -------------
-function main(){
-    let canvas = document.getElementById("glCanvas-square")
+function main() {
+    let canvas = document.getElementById("glCanvas-triangle")
     let gl = canvas.getContext("webgl2")
 
-    if  (!gl) {
-        console.error("ERROR Unable to initialize WebGL.")
+    if (!gl) {
+        console.error("ERROR Unable to initial WebGL.")
+        return
     }
 
-    let shader = initShader(gl)
-    let shaderProgram = initShaderProgram(gl, shader.vertexShader, shader.fragmentShader)
-    let buffers = initBuffer(gl)
+    let vertexShader = initShader(gl, "vertex")
+    let fragmentShader = initShader(gl, "fragment")
+
+    let shaderProgram = initShaderProgram(gl, vertexShader, fragmentShader)
 
     let vertexPosition = gl.getAttribLocation(shaderProgram, "aVertexPosition")
     let vertexColor = gl.getAttribLocation(shaderProgram, "aVertexColor")
 
+    initBuffer(gl)
     drawScene(gl, shaderProgram, vertexPosition, vertexColor)
 }
 
-// ----------------
+// ---------------
 // INIT SHADER
-// ----------------
-function initShader(gl) {
+// ---------------
+function initShader(gl, type) {
     const vsSource = `
         precision mediump float;
 
@@ -35,6 +38,7 @@ function initShader(gl) {
             gl_Position = vec4(aVertexPosition, 0.0, 1.0);
         }
     `
+
     const fsSource = `
         precision mediump float;
 
@@ -44,27 +48,30 @@ function initShader(gl) {
             gl_FragColor = vec4(aFragmentColor, 1.0);
         }
     `
-    let vertexShader = gl.createShader(gl.VERTEX_SHADER)
-    let fragmentShader = gl.createShader(gl.FRAGMENT_SHADER)
+    
+    let shader = ""
+    let shaderSource = ""
 
-    gl.shaderSource(vertexShader, vsSource)
-    gl.shaderSource(fragmentShader, fsSource)
-
-    gl.compileShader(vertexShader)
-    if (!gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS)) {
-        console.error("ERROR compiling vertex shader!", gl.getShaderInfoLog(vertexShader))
-        gl.deleteShader(vertexShader)
-        return
+    if (type === "vertex") {
+        shader = gl.createShader(gl.VERTEX_SHADER)
+        shaderSource = vsSource
     }
 
-    gl.compileShader(fragmentShader)
-    if (!gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS)) {
-        console.error("ERROR compiling fragment shader!", gl.getShaderInfoLog(fragmentShader))
-        gl.deleteShader(fragmentShader)
-        return
+    else if (type === "fragment") {
+        shader = gl.createShader(gl.FRAGMENT_SHADER)
+        shaderSource = fsSource
     }
 
-    return {vertexShader:vertexShader, fragmentShader:fragmentShader}
+    gl.shaderSource(shader, shaderSource)
+    gl.compileShader(shader)
+
+    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+        console.error(`ERROR compiling ${type} shader`, gl.getShaderInfoLog(shader))
+        gl.deleteShader(shader)
+        return
+    }
+    return shader
+
 }
 
 // ------------------------
@@ -77,8 +84,10 @@ function initShaderProgram(gl, vertexShader, fragmentShader) {
     gl.attachShader(shaderProgram, fragmentShader)
 
     gl.linkProgram(shaderProgram)
+
     if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
         console.error("ERROR linking program!", gl.getProgramInfoLog(shaderProgram))
+        gl.deleteProgram(shaderProgram)
         return
     }
     return shaderProgram
@@ -89,34 +98,33 @@ function initShaderProgram(gl, vertexShader, fragmentShader) {
 // --------------
 function initBuffer(gl) {
     let vertices = [
-         0.5,  0.5, 1.0, 0.0, 0.0,
-        -0.5,  0.5, 0.0, 1.0, 0.0, 
-        -0.5, -0.5, 0.0, 0.0, 1.0,
-         0.5, -0.5, 0.8, 0.2, 0.5
+    //    X     Y    R    G    B
+         0.0,  0.5, 1.0, 0.0, 0.0, 
+        -0.5, -0.5, 0.0, 1.0, 0.0, 
+         0.5, -0.5, 0.0, 0.0, 1.0 
     ]
 
     let vertexBuffer = gl.createBuffer()
 
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer)
 
-    gl.bufferData(gl.ARRAY_BUFFER, 
-                new Float32Array(vertices), 
-                gl.STATIC_DRAW)
-    
+    gl.bufferData(
+        gl.ARRAY_BUFFER,
+        new Float32Array(vertices),
+        gl.STATIC_DRAW
+    )
+
     return vertexBuffer
 }
 
-// ---------------
-// DRAW SCENE
-// ---------------
 function drawScene(gl, shaderProgram, vertexPosition, vertexColor) {
     gl.clearColor(0.0, 0.0, 0.0, 1.0)
     gl.clear(gl.COLOR_BUFFER_BIT)
 
-    let positionComponents = 2  // X Y
+    let positionComponents = 2      // X Y
     let positionType = gl.FLOAT
     let positionNormalize = gl.FALSE
-    let positionStride = 5 * Float32Array.BYTES_PER_ELEMENT // X Y R G B
+    let positionStride = 5 * Float32Array.BYTES_PER_ELEMENT      // X Y R G B
     let positionOffset = 0 * Float32Array.BYTES_PER_ELEMENT
 
     gl.vertexAttribPointer(
@@ -127,11 +135,11 @@ function drawScene(gl, shaderProgram, vertexPosition, vertexColor) {
         positionStride,
         positionOffset
     )
-    
-    let colorComponents = 3 // R G B
+
+    let colorComponents = 3      // R G B
     let colorType = gl.FLOAT
     let colorNormalize = gl.FALSE
-    let colorStride = 5 * Float32Array.BYTES_PER_ELEMENT    // X Y R G B
+    let colorStride = 5 * Float32Array.BYTES_PER_ELEMENT      // X Y R G B
     let colorOffset = 2 * Float32Array.BYTES_PER_ELEMENT
 
     gl.vertexAttribPointer(
@@ -149,9 +157,10 @@ function drawScene(gl, shaderProgram, vertexPosition, vertexColor) {
     gl.useProgram(shaderProgram)
     
     const drawOffset = 0
-    const drawVertexCount = 4
+    const drawVertexCount = 3
 
-    gl.drawArrays(gl.TRIANGLE_FAN, drawOffset, drawVertexCount)
+    gl.drawArrays(gl.TRIANGLES, drawOffset, drawVertexCount)
 }
+
 
 window.onload = main()

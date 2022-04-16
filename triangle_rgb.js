@@ -15,13 +15,13 @@ MATRIX_TEXTAREA.value = DEFAULT_VERTICES
 const vsSource = `
     precision mediump float;
 
-    attribute vec2 vtxPosition;
-    attribute vec3 vtxColor;        // create for fragment color
-    varying vec3 fragColor;         // connecting to fragment
+    attribute vec2 aVertexPosition;
+    attribute vec3 aVertexColor;        // create for fragment color
+    varying vec3 fragColor;             // connecting to fragment
 
     void main() {
-        fragColor   = vtxColor;     // assign color to fragment
-        gl_Position = vec4(vtxPosition, 0.0, 1.0);
+        fragColor   = aVertexColor;     // assign color to fragment
+        gl_Position = vec4(aVertexPosition, 0.0, 1.0);
     }
 `
 const fsSource = `
@@ -115,8 +115,8 @@ function main(vertices) {
     gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexBufferObject)
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(parsedVertices), gl.STATIC_DRAW)
 
-    let positionAttribLocation = gl.getAttribLocation(program, 'vtxPosition')
-    let colorAttribLocation = gl.getAttribLocation(program, 'vtxColor')
+    let positionAttribLocation = gl.getAttribLocation(program, 'aVertexPosition')
+    let colorAttribLocation = gl.getAttribLocation(program, 'aVertexColor')
 
     //
     // Vertex Position

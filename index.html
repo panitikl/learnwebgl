@@ -5,24 +5,37 @@
         <link rel="stylesheet" href="./static/css/webgl.css" type="text/css">
     </header>
     <body>
-        <div id="canvasContainer-house">
-            <p>Triangle with 3 points</p>
-            <canvas id="glCanvas-triangle" width="400" height="300" ></canvas>
+        <div id="galleryContainer">
+            <div id="galley-triangle">
+                <p>Triangle with 3 points</p>
+                <p>primitive: TRIANGLES</p>
+                <canvas id="glCanvas-triangle" width="400" height="300" ></canvas>
+            </div>
 
-            <p>Square with 4 points</p>
-            <canvas id="glCanvas-square" width="400" height="300" ></canvas>
-
-            <p>Square with 6 points (2 triangles)</p>
-            <canvas id="glCanvas-squaretri" width="400" height="300" ></canvas>
-
-            <p>House with 21 points (7 triangles)</p>
-            <canvas id="glCanvas-house" width="400" height="300" ></canvas>
+            <div id="galley-square-triangle_fan">
+                <p>Square with 4 points</p>
+                <p>primitive: TRIANGLE_FAN</p>
+                <canvas id="glCanvas-square" width="400" height="300" ></canvas>
+            </div>
+            
+            <div id="galley-square-triangle">
+                <p>Square with 6 points (2 triangles)</p>
+                <p>primitive: TRIANGLES</p>
+                <canvas id="glCanvas-squaretri" width="400" height="300" ></canvas>
+            </div>
+            
+            <div id="galley-house">
+                <p>House with 21 points (7 triangles)</p>
+                <p>primitive: TRIANGLES</p>
+                <canvas id="glCanvas-house" width="400" height="300" ></canvas>
+            </div>
         </div>
 
         <script src="static/js/webgl/triangle.js"></script>
         <script src="static/js/webgl/sqaure.js"></script>
         <script src="static/js/webgl/squaretri.js"></script>
         <script src="static/js/webgl/house.js"></script>
+        
     </body>
     
 </html>

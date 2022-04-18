@@ -143,7 +143,7 @@ function initBuffer(gl) {
 }
 
 function drawScene(gl, shaderProgram, vertexPosition, vertexColor) {
-    gl.clearColor(0.0, 0.0, 0.0, 1.0)
+    gl.clearColor(0.5, 0.7, 0.9, 1.0)
     gl.clear(gl.COLOR_BUFFER_BIT)
 
     let positionComponents = 2      // X Y

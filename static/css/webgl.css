@@ -9,8 +9,13 @@ button {
 
 body {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 0.875em;
 }
 
 input {
     width: 50px;
+}
+
+p {
+    line-height: 0.5;
 }

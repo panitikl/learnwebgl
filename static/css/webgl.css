@@ -19,3 +19,13 @@ input {
 p {
     line-height: 0.5;
 }
+
+.slider {
+    width: 100px;
+}
+
+.sliderInfo {
+    display: flex;
+    flex-wrap: nowrap;
+}
+

@@ -1,57 +1,60 @@
-// -------------
+// -----------
 // MAIN
-// -------------
+// -----------
 function main() {
-    let canvas = document.getElementById("glCanvas-triangle")
-    let gl = canvas.getContext("webgl2")
-
+    let canvas = document.getElementById("glCanvas-triangle-translate")
+    let gl = canvas.getContext("webgl")
+    
     if (!gl) {
-        console.error("ERROR Unable to initial WebGL.")
-        return
+        console.error("ERROR Unable initialize WebGL.")
     }
 
     let vertexShader = initShader(gl, "vertex")
     let fragmentShader = initShader(gl, "fragment")
 
-    let shaderProgram = initShaderProgram(gl, vertexShader, fragmentShader)
+    let shaderProgram = initShaderProgran(gl, vertexShader, fragmentShader)
 
-    let vertexPosition = gl.getAttribLocation(shaderProgram, "aVertexPosition")
-    let vertexColor = gl.getAttribLocation(shaderProgram, "aVertexColor")
+    let vertexPosition = gl.getAttribLocation(shaderProgram, "a_vertexPosition")
+    let vertexColor = gl.getAttribLocation(shaderProgram, "a_vertexColor")
 
+    // INIT VERTEX BUFFER
     let vertexBuffer = gl.createBuffer()
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer)
 
-    setGeometry(gl)
-    drawScene(gl, shaderProgram, vertexPosition, vertexColor)
+    // TRANSLATION
+    let translation = gl.getUniformLocation(shaderProgram, "translation")
+
+    drawScene(gl, shaderProgram, vertexPosition, vertexColor, canvas)
 }
 
-// ---------------
+// ------------------
 // INIT SHADER
-// ---------------
+// ------------------
 function initShader(gl, type) {
     const vsSource = `
-        precision mediump float;
+        attribute vec2 a_vertexPosition;
+        attribute vec3 a_vertexColor;
 
-        attribute vec2 aVertexPosition;
-        attribute vec3 aVertexColor;
-        varying vec3 aFragmentColor;
+        uniform vec2 u_resolution;
+        uniform vec2 u_translation;
+
+        varying vec3 v_fragmentColor;
 
         void main() {
-            aFragmentColor = aVertexColor;
-            gl_Position = vec4(aVertexPosition, 0.0, 1.0);
+            v_fragmentColor = a_vertexColor;
+            gl_Position = vec4(a_vertexPosition + u_translation, 0.0, 1.0);
         }
     `
 
     const fsSource = `
         precision mediump float;
 
-        varying vec3 aFragmentColor;
+        varying vec3 v_fragmentColor;
 
         void main() {
-            gl_FragColor = vec4(aFragmentColor, 1.0);
+            gl_FragColor = vec4(v_fragmentColor, 1.0);
         }
     `
-    
     let shader = ""
     let shaderSource = ""
 
@@ -69,18 +72,17 @@ function initShader(gl, type) {
     gl.compileShader(shader)
 
     if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-        console.error(`ERROR compiling ${type} shader`, gl.getShaderInfoLog(shader))
+        console.error(`ERROR compiling ${type} shader!`, gl.getShaderInfoLog(shader))
         gl.deleteShader(shader)
         return
     }
     return shader
-
 }
 
-// ------------------------
-// INIT SHADER PROGRAM
-// ------------------------
-function initShaderProgram(gl, vertexShader, fragmentShader) {
+// --------------------------
+// INIT SHADING PROGRAM
+// --------------------------
+function initShaderProgran(gl, vertexShader, fragmentShader) {
     let shaderProgram = gl.createProgram()
 
     gl.attachShader(shaderProgram, vertexShader)
@@ -89,81 +91,95 @@ function initShaderProgram(gl, vertexShader, fragmentShader) {
     gl.linkProgram(shaderProgram)
 
     if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
-        console.error("ERROR linking program!", gl.getProgramInfoLog(shaderProgram))
+        console.log("ERROR linking program!", gl.getProgramInfoLog(shaderProgram))
         gl.deleteProgram(shaderProgram)
         return
     }
     return shaderProgram
 }
 
-// --------------
-// INIT BUFFER
-// --------------
+// ----------------
+// SET GEOMETRY
+// ----------------
 function setGeometry(gl) {
-    let vertices = [
-    //    X     Y    R    G    B
+    let positions = [
          0.0,  0.5, 1.0, 0.0, 0.0, 
-        -0.5, -0.5, 0.0, 1.0, 0.0, 
-         0.5, -0.5, 0.0, 0.0, 1.0 
+        -0.5, -0.5, 0.0, 1.0, 0.0,
+         0.5, -0.5, 0.0, 0.0, 1.0
     ]
 
+    //
+    // POSITION
+    //
     gl.bufferData(
-        gl.ARRAY_BUFFER,
-        new Float32Array(vertices),
+        gl.ARRAY_BUFFER, 
+        new Float32Array(positions), 
         gl.STATIC_DRAW
     )
 }
 
-function drawScene(gl, shaderProgram, vertexPosition, vertexColor) {
+// ----------------
+// DRAW SCENE
+// ----------------
+function drawScene(gl, shaderProgram, vertexPosition, vertexColor, canvas, tx, ty) {
     gl.clearColor(0.0, 0.0, 0.0, 1.0)
     gl.clear(gl.COLOR_BUFFER_BIT)
 
-    let positionComponents = 2      // X Y
+    //
+    // POSITION
+    //
+    let positionComponent = 2       // X Y
     let positionType = gl.FLOAT
     let positionNormalize = gl.FALSE
-    let positionStride = 5 * Float32Array.BYTES_PER_ELEMENT      // X Y R G B
+    let positionStrid = 5 * Float32Array.BYTES_PER_ELEMENT      // X Y R G B
     let positionOffset = 0 * Float32Array.BYTES_PER_ELEMENT
 
     gl.vertexAttribPointer(
         vertexPosition,
-        positionComponents,
+        positionComponent,
         positionType,
         positionNormalize,
-        positionStride,
+        positionStrid,
         positionOffset
     )
 
-    let colorComponents = 3      // R G B
+    //
+    // COLOR
+    //
+    let colorComponent = 3      // R G B
     let colorType = gl.FLOAT
     let colorNormalize = gl.FALSE
-    let colorStride = 5 * Float32Array.BYTES_PER_ELEMENT      // X Y R G B
+    let colorStrid = 5 * Float32Array.BYTES_PER_ELEMENT     // X Y R G B
     let colorOffset = 2 * Float32Array.BYTES_PER_ELEMENT
 
     gl.vertexAttribPointer(
         vertexColor,
-        colorComponents,
+        colorComponent,
         colorType,
         colorNormalize,
-        colorStride,
+        colorStrid,
         colorOffset
     )
+
+    // SETUP SCENE
+    setGeometry(gl)
 
     gl.enableVertexAttribArray(vertexPosition)
     gl.enableVertexAttribArray(vertexColor)
 
     gl.useProgram(shaderProgram)
-    
-    const drawOffset = 0
-    const drawVertexCount = 3
 
-    gl.drawArrays(gl.TRIANGLES, drawOffset, drawVertexCount)
+    gl.viewport(0,0,canvas.width, canvas.height)
+
+    gl.drawArrays(gl.TRIANGLES, 0, 3)
 }
+
 
 
 function outputValue(axis) {
     range = document.getElementById(`${axis}-range`)
     document.getElementById(`${axis}RangeValue`).innerHTML = range.value
-}
 
+}
 
 window.onload = main()

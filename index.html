@@ -6,57 +6,29 @@
     </header>
     <body>
         <div id="galleryContainer">
-            <div id="galley-triangle">
-                <p>Triangle with 3 points</p>
-                <p>primitive: TRIANGLES</p>
-                <canvas id="glCanvas-triangle" width="400" height="300" ></canvas>
-            </div>
-
-            <div id="galley-square-triangle_fan">
-                <p>Square with 4 points</p>
-                <p>primitive: TRIANGLE_FAN</p>
-                <canvas id="glCanvas-square" width="400" height="300" ></canvas>
-            </div>
-            
-            <div id="galley-square-triangle">
-                <p>Square with 6 points (2 triangles)</p>
-                <p>primitive: TRIANGLES</p>
-                <canvas id="glCanvas-squaretri" width="400" height="300" ></canvas>
-            </div>
-            
-            <div id="galley-house">
-                <p>House with 21 points (7 triangles)</p>
-                <p>primitive: TRIANGLES</p>
-                <canvas id="glCanvas-house" width="400" height="300" ></canvas>
-            </div>
-
             <div id="galley-square-triangle_translate">
                 <p>Triangle with 3 points</p>
                 <p>primitive: TRIANGLES</p>
-                <canvas id="glCanvas-triangle-translate" width="400" height="300" ></canvas>
+                <canvas id="glCanvas-translate" width="400" height="300" ></canvas>
 
                 <div id="inputContainer-triangle">
                     <div class="sliderInfo">
                         <div class="slider-label">x</div>
-                        <input type="range" class="slider" id="x-range" min="0" max="1" value="0" step="0.1" oninput="outputValue('x')">
+                        <input type="range" class="slider" id="x-slider" min="0" max="300" value="0" step="1" oninput="outputValue('x')">
                         <div id="xRangeValue">0</div>
                     </div>
                     
                     <div class="sliderInfo">
                         <div class="slider-label">y</div>
-                        <input type="range" class="slider" id="y-range" min="0" max="1" value="0" step="0.1" oninput="outputValue('y')">
+                        <input type="range" class="slider" id="y-slider" min="0" max="300" value="0" step="1" oninput="outputValue('y')">
                         <div id="yRangeValue">0</div>
                     </div>
 
                 </div>
             </div>
         </div>
-        
-        <script src="static/js/webgl/triangle.js"></script>
-        <script src="static/js/webgl/sqaure.js"></script>
-        <script src="static/js/webgl/squaretri.js"></script>
-        <script src="static/js/webgl/house.js"></script>
-        <script src="static/js/webgl/triangle_translate.js"></script>
+
+        <script src="static/js/webgl/learn_translate.js"></script>
         
     </body>
     

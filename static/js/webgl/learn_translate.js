@@ -56,7 +56,7 @@ function initShader() {
         uniform vec2 u_resolution;
 
         void main() {
-            // convert ythe rectangle points from pixels to 0.0 to 1.0
+            // convert the rectangle points from pixels to 0.0 to 1.0
             vec2 zeroToOne = a_position / u_resolution;
 
             // convert from 0->1 to 0->2
@@ -180,14 +180,14 @@ function setRectangle(x, y) {
     )
 }
 
-function outputValue(axis) {
+function outputValue() {
     let xRange = document.getElementById(`x-slider`)
     let yRange = document.getElementById(`y-slider`)
 
     document.getElementById(`xRangeValue`).innerHTML = xRange.value
     document.getElementById(`yRangeValue`).innerHTML = yRange.value
     
-    drawScene(parseInt(xRange.value), parseInt(yRange.value))
+    drawScene(parseFloat(xRange.value), parseFloat(yRange.value))
 }
 
 window.onload = main()

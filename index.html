@@ -10,23 +10,44 @@
                 <canvas id="glCanvas-translate" width="400" height="300" ></canvas>
 
                 <div id="inputContainer-triangle">
+                    <!-- translate -->
                     <div class="sliderInfo">
-                        <div class="slider-label">x</div>
-                        <input type="range" class="slider" id="x-slider" min="0" max="300" value="0" step="1" oninput="outputValue()">
-                        <div id="xRangeValue">0</div>
+                        <div class="slider-label">tx</div>
+                        <input type="range" class="slider" id="tx-slider" min="-100" max="100" value="0" step="1" oninput="updateTranslate()">
+                        <div id="txValue">0</div>
                     </div>
                     
                     <div class="sliderInfo">
-                        <div class="slider-label">y</div>
-                        <input type="range" class="slider" id="y-slider" min="0" max="300" value="0" step="1" oninput="outputValue()">
-                        <div id="yRangeValue">0</div>
+                        <div class="slider-label">ty</div>
+                        <input type="range" class="slider" id="ty-slider" min="-100" max="100" value="0" step="1" oninput="updateTranslate()">
+                        <div id="tyValue">0</div>
+                    </div>
+
+                    <!-- scale -->
+                    <div class="sliderInfo">
+                        <div class="slider-label">sx</div>
+                        <input type="range" class="slider" id="sx-slider" min="-10" max="10" value="1" step="0.01" oninput="updateScale()">
+                        <div id="sxValue">1</div>
+                    </div>
+                    
+                    <div class="sliderInfo">
+                        <div class="slider-label">sy</div>
+                        <input type="range" class="slider" id="sy-slider" min="-10" max="10" value="1" step="0.01" oninput="updateScale()">
+                        <div id="syValue">1</div>
+                    </div>
+                    
+                    <!-- rotate -->
+                    <div class="sliderInfo">
+                        <div class="slider-label">rotate</div>
+                        <input type="range" class="slider" id="rotate-slider" min="0" max="360" value="0" step="0.1" oninput="updateRotate()">
+                        <div id="rotateValue">0</div>
                     </div>
 
                 </div>
             </div>
         </div>
 
-        <script src="static/js/webgl/learn_translate.js"></script>
+        <script src="static/js/webgl/learn_translate2.js"></script>
         
     </body>
     

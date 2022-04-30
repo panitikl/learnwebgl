@@ -16,11 +16,11 @@ var ROTATE_LOCATION = ""
 
 var AMP = 50
 var VERTICES = [
-    90,  0,
-    0,   150,
-    200,  150
+    -25,  -50,
+    -75,   50,
+     50,   50
 ]
-var TRANSLATE = [100, 100.0]
+var TRANSLATE = [0, 0]
 var ROTATE = [0.0, 1.0]
 var SCALE = [1.0, 1.0]
 var COLORS = [
@@ -86,7 +86,7 @@ function initShader() {
         }
     `
     const fsSource = `
-        precision mediump float;
+        precision highp float;
 
         varying vec3 v_color;
 

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <header>
+        <title>learn WebGL2</title>
+        <link rel="stylesheet" href="./static/css/webgl.css" type="text/css">
+    </header>
+    <body>
+        <div id="galleryContainer">
+            <canvas id="glCanvas" width="400" height="300" ></canvas>
+            <div>transform matrix</div>
+
+            <!-- Translate X -->
+            <div class="sliderInfo">
+                <div>tx</div>
+                <input type="range" class="slider" id="tx-slider" min="-400" max="400" value="200" step="0.1" oninput="updateMatrix()">
+                <div id="tx-value">200</div>
+            </div>
+
+            <!-- Translate Y -->
+            <div class="sliderInfo">
+                <div>ty</div>
+                <input type="range" class="slider" id="ty-slider" min="-300" max="300" value="120" step="0.1" oninput="updateMatrix()">
+                <div id="ty-value">120</div>
+            </div>
+
+            <!-- Scale X -->
+            <div class="sliderInfo">
+                <div>sx</div>
+                <input type="range" class="slider" id="sx-slider" min="-10" max="10" value="1" step="0.1" oninput="updateMatrix()">
+                <div id="sx-value">1</div>
+            </div>
+
+            <!-- Scale Y -->
+            <div class="sliderInfo">
+                <div>sy</div>
+                <input type="range" class="slider" id="sy-slider" min="-10" max="10" value="1" step="0.1" oninput="updateMatrix()">
+                <div id="sy-value">1</div>
+            </div>
+
+            <!-- Angle -->
+            <div class="sliderInfo">
+                <div>angle</div>
+                <input type="range" class="slider" id="angle-slider" min="0" max="360" value="0" step="0.1", oninput="updateMatrix()">
+                <div id="angle-value">0</div>
+            </div>
+
+        </div>
+
+        <script src="static/js/webgl/03_learn_transform3.js"></script>
+        
+    </body>
+    
+</html>

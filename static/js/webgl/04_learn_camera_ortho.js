@@ -22,20 +22,100 @@ var ROTATION = [0, 0, 0]
 var SCALE = [1, 1, 1]
 
 var VERTICES = [
-    0, 0, 0,
-    0, 70, 0,
-    100, 70, 0,
+    // back
+    0, 0, -25,
+    0, 50, -25,
+    50, 50, -25,
+    0, 0, -25,
+    50, 0, -25, 
+    50, 50, -25,
 
-    0, 0, 0,
-    100, 0, 0, 
-    100, 70, 0
+    // front
+    0, 0, 25,
+    0, 50, 25,
+    50, 50, 25,
+    0, 0, 25,
+    50, 0, 25, 
+    50, 50, 25,
+
+    // right
+    0, 0, 25, 
+    0, 0, -25, 
+    0, 50, 25, 
+    0, 50, -25,
+    0, 0, -25, 
+    0, 50, 25,
+
+    // left
+    50, 0, 25, 
+    50, 0, -25, 
+    50, 50, 25, 
+    50, 50, -25,
+    50, 0, -25, 
+    50, 50, 25,
+
+    // top
+    0, 0, -25,
+    0, 0, 25,
+    50, 0, 25,
+    0, 0, -25,
+    50, 0, -25,
+    50, 0, 25,
+
+    // bottom
+    0, 50, -25,
+    0, 50, 25,
+    50, 50, 25,
+    0, 50, -25,
+    50, 50, -25,
+    50, 50, 25
 ]
 
 var COLORS = [
+    // bottom
     1.0, 0.0, 0.0,
     0.0, 1.0, 0.0,
     0.0, 0.0, 1.0, 
+    1.0, 0.0, 0.0,
+    0.0, 1.0, 0.0,
+    0.0, 0.0, 1.0,
 
+    // top
+    1.0, 0.0, 0.0,
+    0.0, 1.0, 0.0,
+    0.0, 0.0, 1.0, 
+    1.0, 0.0, 0.0,
+    0.0, 1.0, 0.0,
+    0.0, 0.0, 1.0,
+
+    // right
+    1.0, 0.0, 0.0,
+    0.0, 1.0, 0.0,
+    0.0, 0.0, 1.0, 
+    1.0, 0.0, 0.0,
+    0.0, 1.0, 0.0,
+    0.0, 0.0, 1.0,
+
+    // left
+    1.0, 0.0, 0.0,
+    0.0, 1.0, 0.0,
+    0.0, 0.0, 1.0, 
+    1.0, 0.0, 0.0,
+    0.0, 1.0, 0.0,
+    0.0, 0.0, 1.0,
+
+    // top
+    1.0, 0.0, 0.0,
+    0.0, 1.0, 0.0,
+    0.0, 0.0, 1.0,
+    1.0, 0.0, 0.0,
+    0.0, 1.0, 0.0,
+    0.0, 0.0, 1.0,
+
+    // bottom
+    1.0, 0.0, 0.0,
+    0.0, 1.0, 0.0,
+    0.0, 0.0, 1.0,
     1.0, 0.0, 0.0,
     0.0, 1.0, 0.0,
     0.0, 0.0, 1.0
@@ -102,6 +182,19 @@ var M4 = {
              0, -2 / height, 0, 0,
              0,  0,  2 / depth, 0,
             -1,  1,  0,  1
+        ]
+    },
+
+    orthographic: function(left, right, bottom, top, near, far){
+        return [
+            2 / (right - left), 0, 0, 0,
+            0, 2 / (top - bottom), 0, 0,
+            0, 0, 2 / (near - far), 0,
+            
+            (left + right) / (left - right),
+            (bottom + top) / (bottom - top),
+            (near + far) / (near - far),
+            1
         ]
     },
 
@@ -282,14 +375,24 @@ function drawScene() {
 
     GL.useProgram(PROGRAM)
     GL.enable(GL.DEPTH_TEST)
+    // GL.enable(GL.CULL_FACE)
     
     // set the matrix
-    MATRIX = M4.projection(GL.canvas.clientWidth, GL.canvas.clientHeight, 400)
+    // MATRIX = M4.projection(GL.canvas.clientWidth, GL.canvas.clientHeight, 400)
+    
+    let left = 0
+    let right = GL.canvas.clientWidth
+    let top = 0
+    let bottom = GL.canvas.clientHeight
+    let near = 400
+    let far = -400
+    MATRIX = M4.orthographic(left, right, bottom, top, near, far)
+
     MATRIX = M4.translate(MATRIX, TRANSLATION[0], TRANSLATION[1], TRANSLATION[2])
     MATRIX = M4.xRotate(MATRIX, ROTATION[0])
     MATRIX = M4.yRotate(MATRIX, ROTATION[1])
     MATRIX = M4.zRotate(MATRIX, ROTATION[2])
-    MATRIX = M4.scale(MATRIX, SCALE[0], SCALE[1], SCALE[1])
+    MATRIX = M4.scale(MATRIX, SCALE[0], SCALE[1], SCALE[2])
 
     GL.uniformMatrix4fv(MATRIX_LOCATION, false, MATRIX)
 
